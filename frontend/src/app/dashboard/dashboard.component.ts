@@ -65,20 +65,6 @@ export class DashboardComponent implements OnInit {
         this.coursesError = true;
       }
     });
-
-    // Diagnostic fallback: also try a native fetch to the same endpoint and log results
-    try {
-      const url = 'http://localhost:4000/api/courses';
-      console.log('Dashboard: fallback fetch ->', url);
-      window.fetch(url)
-        .then(async res => {
-          console.log('Dashboard: fetch status', res.status);
-          const text = await res.text();
-          try { console.log('Dashboard: fetch body JSON', JSON.parse(text)); } catch { console.log('Dashboard: fetch body (text)', text); }
-        })
-        .catch(err => console.error('Dashboard: fetch error', err));
-    } catch (e) {
-      console.error('Dashboard: fetch fallback not available', e);
     }
   }
 }
