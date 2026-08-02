@@ -1,0 +1,14 @@
+<div>
+  <h2>Bienvenido, {{ user?.name }}</h2>
+  <p>Rol: {{ user?.role }}</p>
+  <section class="summary">
+    <div class="card">
+      <strong>Cursos disponibles</strong>
+      <div>{{ courses.length }}</div>
+    </div>
+    <div class="card" *ngIf="user?.role === 'admin'">
+      <strong>Administrar usuarios</strong>
+      <div>Solo administradores pueden acceder</div>
+    </div>
+  </section>
+</div>

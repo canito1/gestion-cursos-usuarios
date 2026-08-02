@@ -1,0 +1,36 @@
+<div>
+  <h2>Gestión de Usuarios</h2>
+  <button (click)="showCreate = !showCreate">{{ showCreate ? 'Cerrar' : 'Nuevo usuario' }}</button>
+
+  <div *ngIf="showCreate" class="form-panel">
+    <form (ngSubmit)="createUser()">
+      <label>Nombre<input [(ngModel)]="newUser.name" name="name" required /></label>
+      <label>Usuario<input [(ngModel)]="newUser.username" name="username" required /></label>
+      <label>Contraseña<input type="password" [(ngModel)]="newUser.password" name="password" required /></label>
+      <label>Rol
+        <select [(ngModel)]="newUser.role" name="role" required>
+          <option value="admin">Admin</option>
+          <option value="profesor">Profesor</option>
+          <option value="estudiante">Estudiante</option>
+        </select>
+      </label>
+      <button type="submit">Crear</button>
+    </form>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button (click)="deleteUser(user.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
