@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   selector: 'app-dashboard',
   template: `
     <div>
@@ -14,14 +14,14 @@ import { CourseService } from '../services/course.service';
       <section class="summary">
         <div class="card">
           <strong>Cursos disponibles</strong>
-          <div *ngIf="loadingCourses">Cargando...</div>
-          <div *ngIf="!loadingCourses && !coursesError">{{ coursesCount }}</div>
-          <div *ngIf="coursesError" style="color: #b91c1c">Error al cargar cursos</div>
+          @if (loadingCourses) { <div>Cargando...</div> }
+          @if (!loadingCourses && !coursesError) { <div>{{ coursesCount }}</div> }
+          @if (coursesError) { <div style="color: #b91c1c">Error al cargar cursos</div> }
         </div>
-        <div class="card" *ngIf="user?.role === 'admin'">
+        @if (user?.role === 'admin') { <div class="card">
           <strong>Administrar usuarios</strong>
           <div>Solo administradores pueden acceder</div>
-        </div>
+        </div> }
       </section>
     </div>
   `,
@@ -65,20 +65,5 @@ export class DashboardComponent implements OnInit {
         this.coursesError = true;
       }
     });
-
-    // Diagnostic fallback: also try a native fetch to the same endpoint and log results
-    try {
-      const url = 'http://localhost:4000/api/courses';
-      console.log('Dashboard: fallback fetch ->', url);
-      window.fetch(url)
-        .then(async res => {
-          console.log('Dashboard: fetch status', res.status);
-          const text = await res.text();
-          try { console.log('Dashboard: fetch body JSON', JSON.parse(text)); } catch { console.log('Dashboard: fetch body (text)', text); }
-        })
-        .catch(err => console.error('Dashboard: fetch error', err));
-    } catch (e) {
-      console.error('Dashboard: fetch fallback not available', e);
-    }
   }
 }
