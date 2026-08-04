@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Course, CreateCourseRequest } from '../core/models/course.model';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
@@ -8,11 +9,11 @@ export class CourseService {
 
   constructor(private http: HttpClient) {}
 
-  getCourses(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(this.apiUrl);
   }
 
-  createCourse(course: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, course);
+  createCourse(course: CreateCourseRequest): Observable<Course> {
+    return this.http.post<Course>(this.apiUrl, course);
   }
 }

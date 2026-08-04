@@ -4,11 +4,15 @@
   <section class="summary">
     <div class="card">
       <strong>Cursos disponibles</strong>
-      <div>{{ courses.length }}</div>
+      @if (loadingCourses) { <div>Cargando...</div> }
+      @if (!loadingCourses && !coursesError) { <div>{{ coursesCount }}</div> }
+      @if (coursesError) { <div style="color: #b91c1c">Error al cargar cursos</div> }
     </div>
-    <div class="card" *ngIf="user?.role === 'admin'">
-      <strong>Administrar usuarios</strong>
-      <div>Solo administradores pueden acceder</div>
-    </div>
+    @if (user?.role === 'admin') {
+      <div class="card">
+        <strong>Administrar usuarios</strong>
+        <div>Solo administradores pueden acceder</div>
+      </div>
+    }
   </section>
 </div>

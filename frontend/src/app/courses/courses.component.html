@@ -1,21 +1,28 @@
 <div>
   <h2>Cursos</h2>
-  <button *ngIf="canEdit" (click)="showCreate = !showCreate">{{ showCreate ? 'Cancelar' : 'Nuevo curso' }}</button>
+  <div style="margin-bottom:8px">Total: <strong>{{ loading ? 'Cargando...' : (courses.length + ' cursos') }}</strong></div>
+  @if (canEdit) {
+    <button (click)="showCreate = !showCreate">{{ showCreate ? 'Cancelar' : 'Nuevo curso' }}</button>
+  }
 
-  <div *ngIf="showCreate" class="form-panel">
-    <form (ngSubmit)="createCourse()">
-      <label>Título<input [(ngModel)]="newCourse.title" name="title" required /></label>
-      <label>Descripción<textarea [(ngModel)]="newCourse.description" name="description" required></textarea></label>
-      <label>Profesor<input [(ngModel)]="newCourse.teacher" name="teacher" required /></label>
-      <button type="submit">Crear curso</button>
-    </form>
-  </div>
+  @if (showCreate) {
+    <div class="form-panel">
+      <form (ngSubmit)="createCourse()">
+        <label>Título<input [(ngModel)]="newCourse.title" name="title" required /></label>
+        <label>Descripción<textarea [(ngModel)]="newCourse.description" name="description" required></textarea></label>
+        <label>Profesor<input [(ngModel)]="newCourse.teacher" name="teacher" required /></label>
+        <button type="submit">Crear curso</button>
+      </form>
+    </div>
+  }
 
   <div class="course-list">
-    <div class="course-card" *ngFor="let course of courses">
-      <h3>{{ course.title }}</h3>
-      <p>{{ course.description }}</p>
-      <small>Docente: {{ course.teacher }}</small>
-    </div>
+    @for (course of courses; track course._id) {
+      <div class="course-card">
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.description }}</p>
+        <small>Docente: {{ course.teacher }}</small>
+      </div>
+    }
   </div>
 </div>
